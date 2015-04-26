@@ -1,21 +1,23 @@
-from flask import Blueprint, request, send_file, abort, send_from_directory
-from flask import render_template, flash, url_for, redirect
+from flask import Blueprint, request, send_file, abort, send_from_directory, render_template, flash, url_for, redirect
 from flask import current_app as app
 from flask.ext.login import login_required
 from itsdangerous import URLSafeSerializer, BadSignature
-from flask.ext.login import login_required
-from flask.ext.login import current_user
-from toolbox.tools import admin_required
-from toolbox.models import User, Host, Vertex, Body, Happenings
+from flask.ext.login import LoginManager
+from flask.ext.login import login_required, login_user, logout_user, current_user
+from toolbox.models import User, Host, Vertex, Body, Happenings, Administrator
 from toolbox.emailer import InviteEmail
 from toolbox.s3 import s3_config
 from flask.ext.login import login_user
 from .forms import *
+from functools import wraps
+from urlparse import urlunsplit
+import time
 import requests
 import boto
 import stripe
 import md5
 import os
+
 
 mod = Blueprint(
     'admin',
@@ -23,49 +25,78 @@ mod = Blueprint(
     static_folder='static',
     template_folder='views',
     static_url_path='/static/admin',
-    url_prefix='/admin')
+)
+
+
+# Admin view decorator
+def admin_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if not current_user.admin:
+            return redirect(url_for("admin.index"))
+        return f(*args, **kwargs)
+    return decorated_function
 
 
 def send_invite(user):
     s = URLSafeSerializer(app.config['SECRET_KEY'])
     payload = s.dumps(str(user.id))
-    link_href = url_for("root.confirm", payload=payload, _external=True)
+    link_href = url_for("admin.confirm", payload=payload, _external=True)
 
     InviteEmail(user.email, link_href).send()
     flash("Successfully sent invitation.")
 
 
-@mod.route("/")
-@admin_required
+@mod.route('/', methods=["GET"])
 def index():
-    return render_template('admin_index.html', admins=User.objects(admin=True), users=User.objects(admin=False))
+    if current_user.is_authenticated():
+        return render_template('admin_index.html', admins=User.objects(admin=True), users=User.objects(admin=False))
+    return render_template("login.html", form=LoginForm())
 
 
-@mod.route("/user/")
-@login_required
-@admin_required
-def user():
-    return render_template(
-        'user.html', admins=User.objects(admin=True), users=User.objects(admin=False))
+@mod.route('/', methods=["POST"])
+def post_index():
+    form = LoginForm()
+    if form.validate_on_submit():
+        # login and validate the user...
+        user = Administrator.objects.get(id=form.user.id)
+        login_user(user)
+        flash("Logged in successfully.")
+        if user.admin :
+            return redirect(url_for("admin.index"))
+    return render_template("login.html", form=form)
+
+
+@mod.route("/logout/")
+def logout():
+    logout_user()
+    flash("You have been logged out.")
+    return redirect(url_for("admin.index"))
 
 
 @mod.route("/user/<id>/")
 @login_required
 @admin_required
-def individual_user(id):
+def user(id):
     user = User.objects.get(id=id)
     host = Host.by_owner(user)
-    cust = stripe.Customer.retrieve(user.stripe_id)
-    plans = stripe.Plan.all()
-    return render_template('individual_user.html', user=user, host=host, cust=cust, plans=plans)
+    if user.stripe_id:
+        cust = stripe.Customer.retrieve(user.stripe_id)
+        plans = stripe.Plan.all()
+        return render_template('individual_user.html', user=user, host=host, cust=cust, plans=plans)
+    return render_template('individual_user.html', user=user, host=host)
 
 
 @mod.route("/user/<id>/login/")
 @login_required
 @admin_required
 def login_as_user(id):
-    login_user(User.objects.get(id=id, admin=False))
-    return redirect(url_for("root.index"))
+    s = URLSafeSerializer(app.config['SECRET_KEY'])
+    payload = {"id": id, "stamp": time.time()}
+    token = s.dumps(payload)
+    pieces = [app.config["LIME_URL"], 'trowel', token]
+    url = '/'.join(s.strip('/') for s in pieces)
+    return redirect(url)
 
 
 @mod.route("/user/<id>/invite/")

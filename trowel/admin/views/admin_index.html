@@ -8,7 +8,7 @@
   {% for user in users %}
   <ul>
     <li>
-      <a href="{{ url_for("admin.user") }}{{ user.id }}/"><b>{{user.email}}</b></a>
+      <a href="{{ url_for("admin.user", id=user.id) }}"><b>{{user.email}}</b></a>
       {% if not user.confirmed %}
         <span class="danger">(Unconfirmed)</span>
       {% elif not user.registered %}
@@ -22,7 +22,11 @@
   <h2>Admins:</h2>
   {% for admin in admins %}
   <ul>
-    <li><b>{{admin.email}}</b></li>
+    <li>
+      <a href="{{ url_for("admin.user", id=admin.id) }}">
+        <b>{{admin.email}}</b>
+      </a>
+    </li>
   </ul>
   {% endfor %}
 {% endblock %}

@@ -1,7 +1,0 @@
-{% extends "fancyform.html" %}
-{% block form %}
-  <form action="{{ url_for('root.confirm') }}" method=post>
-    {{ render(form) }}
-  </form>
-{% endblock %}
-{% block user %}{% endblock %}

@@ -1,23 +1,24 @@
 from flask import flash
 from flask.ext.wtf import Form
 from wtforms import TextField, PasswordField, BooleanField, SubmitField
-from wtforms.validators import Required, Email, EqualTo
+from wtforms.validators import Required, Email
 from werkzeug import check_password_hash, generate_password_hash
-from toolbox.models import User
-from mongoengine.queryset import Q
+from toolbox.models import User, Administrator
 
 
-class ForgotPasswordForm(Form):
+class CreateForm(Form):
     email = TextField('Email address', [Required(), Email()])
-    submit = SubmitField('Reset password')
+    hostname = TextField('Hostname', [Required()])
+    send_invite = BooleanField('Send invitation email?', [Required()])
+    submit = SubmitField('Submit')
 
     def __init__(self, *args, **kwargs):
         Form.__init__(self, *args, **kwargs)
         self.user = None
 
     def validate(self):
-        if User.objects(email=self.email.data).first() is None:
-            flash("This email address is not in the system.")
+        if User.objects(email=self.email.data).first() is not None:
+            flash("This email address already has an account")
             return False
         return True
 
@@ -47,38 +48,4 @@ class LoginForm(Form):
             return False
 
         self.user = user
-        return True
-
-
-class ResetPasswordForm(Form):
-    password = PasswordField('Password', [Required()])
-    confirm = PasswordField('Repeat Password', [
-        Required(),
-        EqualTo('password', message='Passwords must match')
-    ])
-    submit = SubmitField('Reset password')
-
-    def __init__(self, *args, **kwargs):
-        Form.__init__(self, *args, **kwargs)
-        self.user = None
-
-    def validate(self):
-        if self.password.data == self.confirm.data:
-            return True
-        return False
-
-
-class ConfirmForm(Form):
-    password = PasswordField('Choose a Password', [Required()])
-    confirm = PasswordField('Repeat Password', [
-        Required(),
-        EqualTo('password', message='Passwords must match')
-    ])
-    submit = SubmitField('Register')
-
-    def __init__(self, *args, **kwargs):
-        Form.__init__(self, *args, **kwargs)
-        self.user = None
-
-    def validate(self):
         return True

@@ -1,4 +1,4 @@
-lime
+trowel
 ==========
 
-Lime holds your work together.
+Trowel helps put Lime in order.

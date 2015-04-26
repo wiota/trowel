@@ -38,6 +38,7 @@
         {% endfor %}
         </ul>
 
+    {% if cust %}
     <h2>Plans</h2>
     <h3>Enrolled</h3>
     {% if cust.subscriptions.total_count < 1 %}
@@ -65,6 +66,11 @@
             <li>{{ card.brand }} ending in {{ card.last4}} expiring on {{ card.exp_month }}/{{ card.exp_year }}</li>
         {% endfor %}
         </ul>
+    {% endif %}
+    {% else %}
+      <span class="danger">
+        <h2>No Stripe data for this user.</h2>
+      </span>
     {% endif %}
 
 

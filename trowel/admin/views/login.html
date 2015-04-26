@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% from "_macros.html" import render %}
+{% block content %}
+  <br/>
+  <center>
+    <img src="{{ url_for('static', filename='img/trowel.png') }}"><br/>
+    <form action="{{ url_for('admin.index') }}" method=post>
+      {{ render(form) }}
+    </form>
+  </center>
+  <script type='text/javascript'>
+    $(document).ready(function() {
+      LIME.flash();
+    });
+  </script>
+{% endblock %}

@@ -7,13 +7,8 @@ from flask.ext.mongoengine import MongoEngine
 from flask.ext.login import LoginManager
 from toolbox import tools
 from toolbox.emailer import LimeExceptionEmail
-import mongoexhaust
-from lime.account import account
-from lime.admin import admin
-from lime.api import api
-from lime.root import root
-from lime.upload import upload
-from lime.webhook import webhook
+from trowel.admin import admin
+from trowel.webhook import webhook
 from toolbox.models import User
 from toolbox.template_filters import format_date, format_money, bust
 from toolbox.tools import AnonymousUser
@@ -42,6 +37,9 @@ app.jinja_env.filters["bust"] = bust
 # For CSRF usage
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
 
+# For LIME logins
+app.config['LIME_URL'] = os.environ.get('LIME_URL')
+
 # Stripe API keys
 stripe.api_key = os.environ.get('STRIPE_SECRET_KEY')
 stripe.public_key = os.environ.get('STRIPE_PUBLIC_KEY')
@@ -60,31 +58,16 @@ app.config["MONGODB_SETTINGS"] = {
 # MongoEngine DB
 db = MongoEngine(app)
 
-api.config = app.config
-app.register_blueprint(api.mod)
-
 admin.config = app.config
 app.register_blueprint(admin.mod)
-
-upload.config = app.config
-app.register_blueprint(upload.mod)
-
-account.config = app.config
-app.register_blueprint(account.mod)
 
 webhook.config = app.config
 app.register_blueprint(webhook.mod)
 
-root.config = app.config
-app.register_blueprint(root.mod)
-
 login_manager = LoginManager()
 login_manager.init_app(app)
-login_manager.login_view = "root.index"
+login_manager.login_view = "admin.index"
 login_manager.anonymous_user = tools.AnonymousUser
-
-# Wrap the exhaust with our custom function
-mongoexhaust.wrapper = tools.make_response
 
 @login_manager.user_loader
 def load_user(userid):
