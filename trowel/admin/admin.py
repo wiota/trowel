@@ -4,7 +4,7 @@ from flask.ext.login import login_required
 from itsdangerous import URLSafeSerializer, BadSignature
 from flask.ext.login import LoginManager
 from flask.ext.login import login_required, login_user, logout_user, current_user
-from toolbox.models import User, Host, Vertex, Body, Happenings, Administrator
+from toolbox.models import User, Host, Vertex, Body, Happenings, Administrator, Apex
 from toolbox.emailer import InviteEmail
 from toolbox.s3 import s3_config
 from flask.ext.login import login_user
@@ -227,6 +227,11 @@ def create_user():
             title = "%s: Happenings" % (hostname)
             happenings = Happenings(host=host, title=title)
             happenings.save()
+
+            # Create the Apex
+            apex = Apex(host=host, title=hostname, succset=[body, happenings])
+            apex.save()
+            host.update(set__apex=apex)
 
 
         # Add the new user as an owner of the host
