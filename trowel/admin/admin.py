@@ -95,7 +95,7 @@ def login_as_user(id):
     payload = {"id": id, "stamp": time.time()}
     token = s.dumps(payload)
     pieces = [app.config["LIME_URL"], 'trowel', token]
-    url = '/'.join(s.strip('/') for s in pieces)
+    url = '/'.join(piece.strip('/') for piece in pieces)
     return redirect(url)
 
 

@@ -1,7 +1,7 @@
 {% extends "admin_base.html" %}
 {% block content %}
   <div class='toolbar'>
-    <a href="./login/">Login as user</a>
+    <a href="./login/" target="lime">Login as user</a>
     {% if not user.confirmed or not user.registered %}
         <a href="./invite/">Send invitation email</a>
     {% endif %}
