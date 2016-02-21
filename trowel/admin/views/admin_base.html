@@ -14,7 +14,7 @@
     <link rel='stylesheet' href='{{ url_for('static', filename='css/lime_account.css') }}?v={{ config["HEROKU_RELEASE_NAME"] }}' type='text/css' media='all' />
 
     <script src='{{ url_for('static', filename='js/jquery.min.js') }}'></script>
-    <script src='{{ url_for('static', filename='js/lime.js') }}'></script>
+    <script src='{{ url_for('static', filename='js/flash.js') }}'></script>
 
     {% endblock %}
   </head>
@@ -68,9 +68,7 @@
     </div>
 
     <script type='text/javascript'>
-      $(document).ready(function() {
-        LIME.flash();
-      });
+      $(document).ready(flash);
     </script>
 
   </body>
