@@ -1,3 +1,4 @@
+{% from "_macros.html" import render %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -9,36 +10,65 @@
     <title>Trowel</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <link href='http://fonts.googleapis.com/css?family=Inconsolata:400,700' rel='stylesheet' type='text/css'>
-    <link rel='stylesheet' href='{{ url_for('static', filename='css/lime_base.css')|bust }}' type='text/css' media='all'>
-    <link rel='stylesheet' href='{{ url_for('static', filename='css/lime.css')|bust }}' type='text/css' media='all'>
-    <link rel='stylesheet' href='{{ url_for('static', filename='css/lime.views.css')|bust }}' type='text/css' media='all'>
-    <script src='{{ url_for('static', filename='js/lodash.min.js')|bust }}'></script>
-    <script src='{{ url_for('static', filename='js/jquery.min.js')|bust }}'></script>
-    <script src='{{ url_for('static', filename='js/icon.js')|bust }}'></script>
-    <script src='{{ url_for('static', filename='js/lime.js')|bust }}'></script>
-    <script src='{{ url_for('static', filename='js/backbone.js')|bust }}'></script>
-    <script src='{{ url_for('static', filename='js/sortable.js')|bust }}'></script>
+    <link rel='stylesheet' href='{{ url_for('static', filename='css/trowel.css') }}?v={{ config["HEROKU_RELEASE_NAME"] }}' type='text/css' media='all' />
+
+    <script src='{{ url_for('static', filename='js/jquery.min.js') }}'></script>
+    <script src='{{ url_for('static', filename='js/flash.js') }}'></script>
 
     {% endblock %}
-
-    {% block backbone_templates %}{% endblock %}
-
   </head>
 
-  <body>
-
+  <body class='account'>
     {% for message in get_flashed_messages() %}
     <div class='admin_flashes'>
       <div class='flash'>{{ message }}</div>
     </div>
     {% endfor %}
 
+    {%- block user -%}
+      {% if not current_user.is_anonymous() %}
 
-    <div class="content">
-      {% block content %}{% endblock %}
+        <div id='navigation_column'>
+          <ul class='account_nav nav'>
+            <li class='identification'>
+              <a class='drop'>
+                <span class='label'>{{current_user.email}}</span>
+              </a>
+              <ul class='subnav'>
+                <li class='admin'>
+                  <a href=" {{ url_for('admin.index') }} ">
+                    <span class='eye icon'>
+                      <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 16 16"><circle fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" cx="8" cy="8" r="7.3"/><circle cx="6.499" cy="10.5" r="2"/></svg>
+                      </span>
+                    <span class='label'>Admin</span>
+                  </a>
+                </li>
+                <li class='logout'>
+                  <a href="{{ url_for('admin.logout') }} ">
+                    <span class='icon'>
+                      <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 16 16"><line fill="none" stroke="#000000" stroke-miterlimit="10" x1="1" y1="1.5" x2="15" y2="1.5"/><line fill="none" stroke="#000000" stroke-miterlimit="10" x1="1" y1="13.5" x2="15" y2="13.5"/><line fill="none" stroke="#000000" stroke-miterlimit="10" x1="0.5" y1="2" x2="0.5" y2="13"/><line fill="none" stroke="#000000" stroke-miterlimit="10" x1="15.5" y1="2" x2="15.5" y2="13"/><line fill="none" stroke="#D80404" stroke-miterlimit="10" x1="2.5" y1="3" x2="2.5" y2="12"/><line fill="none" stroke="#D80404" stroke-miterlimit="10" x1="2" y1="3.5" x2="4" y2="3.5"/><line fill="none" stroke="#D80404" stroke-miterlimit="10" x1="2" y1="7.5" x2="4" y2="7.5"/><line fill="none" stroke="#D80404" stroke-miterlimit="10" x1="2" y1="11.5" x2="4" y2="11.5"/><polygon fill="#D80404" points="8,12 7,12 5,3 6,3 "/><polygon fill="#D80404" points="5,12 6,12 8,3 7,3 "/><line fill="none" stroke="#D80404" stroke-miterlimit="10" x1="9.5" y1="3" x2="9.5" y2="12"/><line fill="none" stroke="#D80404" stroke-miterlimit="10" x1="11" y1="3.5" x2="14" y2="3.5"/><line fill="none" stroke="#D80404" stroke-miterlimit="10" x1="12.5" y1="3.5" x2="12.5" y2="12"/></svg>
+                      </span>
+                    <span class='label'>Logout</span>
+                  </a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+
+      {% endif %}
+    {%- endblock -%}
+
+    <div id='display_column'>
+      <div class="account">
+        {% if error %}<p class=error><strong>Error:</strong> {{ error }}{% endif %}
+        {% block content %}{% endblock %}
+      </div>
     </div>
 
-    {% block js_footer %}{% endblock %}
+    <script type='text/javascript'>
+      $(document).ready(flash);
+    </script>
 
   </body>
 </html>

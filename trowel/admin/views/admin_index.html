@@ -1,32 +1,38 @@
-{% extends "admin_base.html" %}
+{% extends "base.html" %}
 {% block content %}
   <div class='toolbar'>
-    <a href="{{ url_for("admin.create_user") }}">Create a new user <i class='pro_tip'>({{ url_for("admin.create_user") }})</i></a></li>
+    <a href="{{ url_for("admin.create_user") }}">
+      Create a new user
+      <i class='pro_tip'>({{ url_for("admin.create_user") }})</i>
+    </a>
   </div>
+
   <h2>Current Users:</h2>
   {% if error %}<p class=error><strong>Error:</strong> {{ error }}{% endif %}
   {% for user in users %}
-  <ul>
-    <li>
-      <a href="{{ url_for("admin.user", id=user.id) }}"><b>{{user.email}}</b></a>
-      {% if not user.confirmed %}
-        <span class="danger">(Unconfirmed)</span>
-      {% elif not user.registered %}
-        <span class="danger">(Unregistered)</span>
-      {% else %}
-        (Confirmed &amp; Registered)
-      {% endif %}
-    </li>
-  </ul>
+    <ul>
+      <li>
+        <a href="{{ url_for("admin.user", id=user.id) }}"><b>{{user.email}}</b></a>
+        {% if not user.confirmed %}
+          <span class="danger">(Unconfirmed)</span>
+        {% elif not user.registered %}
+          <span class="danger">(Unregistered)</span>
+        {% else %}
+          (Confirmed &amp; Registered)
+        {% endif %}
+      </li>
+    </ul>
   {% endfor %}
+
   <h2>Admins:</h2>
   {% for admin in admins %}
-  <ul>
-    <li>
-      <a href="{{ url_for("admin.user", id=admin.id) }}">
-        <b>{{admin.email}}</b>
-      </a>
-    </li>
-  </ul>
+    <ul>
+      <li>
+        <a href="{{ url_for("admin.user", id=admin.id) }}">
+          <b>{{admin.email}}</b>
+        </a>
+      </li>
+    </ul>
   {% endfor %}
+
 {% endblock %}
