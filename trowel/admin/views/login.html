@@ -1,11 +1,35 @@
-{% extends "base.html" %}
 {% from "_macros.html" import render %}
-{% block content %}
-  <br/>
-  <center>
-    <img src="{{ url_for('static', filename='img/trowel.png') }}"><br/>
-    <form action="{{ url_for('admin.index') }}" method=post>
-      {{ render(form) }}
-    </form>
-  </center>
-{% endblock %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <link rel="icon" type="image/png" href="https://s3.amazonaws.com/wiota/trowel/trowel.png">
+    <title>Trowel</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link href='http://fonts.googleapis.com/css?family=Inconsolata:400,700' rel='stylesheet' type='text/css'>
+    <link rel='stylesheet' href='{{ url_for('static', filename='css/trowel.css') }}?v={{ config["HEROKU_RELEASE_NAME"] }}' type='text/css' media='all' />
+
+    <script src='{{ url_for('static', filename='js/jquery.min.js') }}'></script>
+    <script src='{{ url_for('static', filename='js/flash.js') }}'></script>
+  </head>
+
+  <body>
+    {% for message in get_flashed_messages() %}
+    <div class='admin_flashes'>
+      <div class='flash'>{{ message }}</div>
+    </div>
+    {% endfor %}
+
+    <div class='trowel_login'>
+      <img src="{{ url_for('static', filename='img/trowel.png') }}"><br/>
+      <form action="{{ url_for('admin.index') }}" method=post>
+        {{ render(form) }}
+      </form>
+    </div>
+
+    <script type='text/javascript'>
+      $(document).ready(flash);
+    </script>
+
+  </body>
+</html>

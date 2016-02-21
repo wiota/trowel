@@ -31,9 +31,7 @@
         <div id='navigation_column'>
           <ul class='account_nav nav'>
             <li class='identification'>
-              <a class='drop'>
-                <span class='label'>{{current_user.email}}</span>
-              </a>
+            <span class='label'>{{current_user.email}}</span>
               <ul class='subnav'>
                 <li class='admin'>
                   <a href=" {{ url_for('admin.index') }} ">
