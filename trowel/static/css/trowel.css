@@ -82,7 +82,7 @@ button {
   z-index: 2;
   width: 249px;
   border-right: 1px solid #f5f8f8;
-  background-color: #fff;
+  background: linear-gradient(to bottom, #d3d3d3 0%,#f4f4f4 100%);
   position:fixed;
   overflow: auto;
   top: 0;
@@ -101,7 +101,10 @@ button {
   font-weight: normal;
   font-family: "Inconsolata","Monaco","Lucida Console","Courier New", "monospace";
   font-size: 16px;
-  }
+}
+
+.nav a {
+}
 
 .nav li {
   position:relative;
