@@ -58,10 +58,8 @@
     {%- endblock -%}
 
     <div id='display_column'>
-      <div class="account">
-        {% if error %}<p class=error><strong>Error:</strong> {{ error }}{% endif %}
-        {% block content %}{% endblock %}
-      </div>
+      {% if error %}<p class=error><strong>Error:</strong> {{ error }}{% endif %}
+      {% block content %}{% endblock %}
     </div>
 
     <script type='text/javascript'>

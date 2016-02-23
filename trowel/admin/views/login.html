@@ -21,7 +21,7 @@
     {% endfor %}
 
     <div class='trowel_login'>
-      <img src="{{ url_for('static', filename='img/trowel.png') }}"><br/>
+      <img src="{{ url_for('static', filename='img/trowel.png') }}">
       <form action="{{ url_for('admin.index') }}" method=post>
         {{ render(form) }}
       </form>
