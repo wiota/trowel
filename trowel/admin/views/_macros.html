@@ -39,6 +39,14 @@
 </fieldset>
 {% endmacro %}
 
+{% macro checkmark(test) -%}
+  {% if test %}
+      <span class='well'>&#10004;</span>
+  {% else %}
+      <span class='danger'>&#10007;</span>
+  {% endif %}
+{% endmacro %}
+
 {% macro madeby() -%}
   <div class="madeby">Made in Philly with <img src="/icon/love.svg"> by <a href="http://www.wiota.co">Wiota Co.</a></div>
 {% endmacro %}

@@ -80,11 +80,19 @@ def logout():
 def user(id):
     user = User.objects.get(id=id)
     host = Host.by_owner(user)
+    return render_template('individual_user.html', user=user, host=host)
+
+@mod.route("/user/<id>/billing")
+@login_required
+@admin_required
+def billing(id):
+    user = User.objects.get(id=id)
+    host = Host.by_owner(user)
     if user.stripe_id:
         cust = stripe.Customer.retrieve(user.stripe_id)
         plans = stripe.Plan.all()
-        return render_template('individual_user.html', user=user, host=host, cust=cust, plans=plans)
-    return render_template('individual_user.html', user=user, host=host)
+        return render_template('individual_user_billing.html', user=user, host=host, cust=cust, plans=plans)
+    return render_template('individual_user_billing.html', user=user, host=host)
 
 
 @mod.route("/user/<id>/login/")

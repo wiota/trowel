@@ -33,6 +33,14 @@ h1 {
   font-size: 1.5rem;
 }
 
+h2 {
+  font-size: 1.3rem;
+}
+
+h3 {
+  font-size: 1.1rem;
+}
+
 /* Forms */
 
 [type=text]:focus,
@@ -156,7 +164,7 @@ button {
 #navigation_column {
   z-index: 2;
   width: 249px;
-  border-right: .5em solid #fced1e;
+  border-right: .3em solid #fced1e;
   background: linear-gradient(to bottom, #d3d3d3 0%,#f4f4f4 100%);
   position:fixed;
   overflow: auto;
@@ -238,16 +246,10 @@ button {
   line-height: 1.5rem;
 }
 
-#display_column h2 {
-  margin: 2% 0;
-  font-size: 20px;
-}
-
 #display_column a {
   font-weight: bold;
   color: #000;
   text-decoration: underline;
-  padding: 3px;
 }
 
 #display_column .pro_tip {
@@ -260,6 +262,7 @@ button {
 }
 
 #display_column .toolbar a {
+  position: relative;
   font-weight: normal;
   padding: 0.3rem .7rem;
   margin: 0 0.5rem 0 0;
@@ -271,15 +274,27 @@ button {
   font-family: "Inconsolata","Monaco","Lucida Console","Courier New", "monospace";
 }
 
+#display_column .toolbar a img {
+  height: 1em;
+}
+
 #display_column .topcon {
   display:block;
   margin: 2% 0;
   width: 16%;
 }
 
+.confirm {
+  font-size: 2em;
+  line-height: 1.5em;
+}
 
 .danger {
   color:#f96625 !important;
+}
+
+.well {
+  color:#1ab239 !important;
 }
 
 /* stripe */
