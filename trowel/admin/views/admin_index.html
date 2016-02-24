@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
   <div class='toolbar'>
-    <a href="{{ url_for("admin.create_user") }}">
+    <a class='button' href="{{ url_for("admin.create_user") }}">
       Create a new user
       <i class='pro_tip'>({{ url_for("admin.create_user") }})</i>
     </a>

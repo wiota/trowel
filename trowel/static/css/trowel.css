@@ -62,7 +62,7 @@ textarea:focus,
 a:focus {
   border: 1px dotted #000000;
   outline: 0;
-  box-shadow: 0 0 0 .5em #fced1e;
+  box-shadow: 0 0 0 .3rem #fced1e;
   transition: all 1s;
 }
 
@@ -92,7 +92,6 @@ button {
   padding: .5rem;
   margin: .5rem 0;
   font-size: 1rem;
-  border-style:none;
   background-color: #fff;
   border: 1px dotted #ccc;
 }
@@ -105,7 +104,8 @@ textarea {
 
 input[type='checkbox'] {
   float: left;
-  margin: .3rem;
+  margin: 0 .5em 0 0;
+  line-height: 1em;
 }
 
 input[type='submit'],
@@ -114,6 +114,7 @@ button {
   background-color: #000;
   border-radius: .5rem;
   margin: 1.5rem 0 0;
+  border: 1px solid #fced1e;
   font-family: "Inconsolata","Monaco","Lucida Console","Courier New", "monospace";
 }
 
@@ -164,7 +165,7 @@ button {
 #navigation_column {
   z-index: 2;
   width: 249px;
-  border-right: .3em solid #fced1e;
+  border-right: .3rem solid #fced1e;
   background: linear-gradient(to bottom, #d3d3d3 0%,#f4f4f4 100%);
   position:fixed;
   overflow: auto;
@@ -248,7 +249,6 @@ button {
 
 #display_column a {
   font-weight: bold;
-  color: #000;
   text-decoration: underline;
 }
 
@@ -259,23 +259,6 @@ button {
 
 #display_column .toolbar {
   margin: 0 0 2%;
-}
-
-#display_column .toolbar a {
-  position: relative;
-  font-weight: normal;
-  padding: 0.3rem .7rem;
-  margin: 0 0.5rem 0 0;
-  display:inline-block;
-  color: #fff;
-  background-color: #000;
-  border-radius: .5rem;
-  text-decoration: none;
-  font-family: "Inconsolata","Monaco","Lucida Console","Courier New", "monospace";
-}
-
-#display_column .toolbar a img {
-  height: 1em;
 }
 
 #display_column .topcon {
@@ -289,12 +272,28 @@ button {
   line-height: 1.5em;
 }
 
+.button {
+  font-weight: normal;
+  padding: 0.3rem .7rem;
+  margin: 0 0.5rem 0.5rem 0;
+  display:inline-block;
+  color: #fff !important;
+  background-color: #000;
+  border-radius: .5rem;
+  text-decoration: none !important;
+  font-family: "Inconsolata","Monaco","Lucida Console","Courier New", "monospace";
+}
+
 .danger {
-  color:#f96625 !important;
+  color: #f96625 !important;
 }
 
 .well {
-  color:#1ab239 !important;
+  color: #1ab239 !important;
+}
+
+.warn {
+  color: #fced1e !important;
 }
 
 /* stripe */

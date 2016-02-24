@@ -2,11 +2,11 @@
 {% extends "base.html" %}
 {% block content %}
   <div class='toolbar'>
-    <a href="./login/" target="lime">Login as user</a>
+    <a class='button warn' href="./login/" target="lime">Login as user</a>
     {% if not user.confirmed or not user.registered %}
         <a href="./invite/">Send invitation email</a>
     {% endif %}
-    <a href="{{ url_for("admin.billing", id=user.id) }}">Billing</a>
+    <a class='button well' href="{{ url_for("admin.billing", id=user.id) }}">Billing</a>
   </div>
   <h1 class='user'>{{user.email}}</h1>
     {% if not user.confirmed %}
@@ -44,8 +44,8 @@
 
     <h2>Actions</h2>
     <ul>
-        <li><a href="./invite/">Send invitation email</a></li>
-        <li><a href="./delete/">Delete user</a></li>
+        <li><a class='button warn' href="./invite/">Send invitation email</a></li>
+        <li><a class='button danger' href="./delete/">Delete user</a></li>
     </ul>
 {% endblock %}
 
