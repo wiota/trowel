@@ -4,7 +4,7 @@
   <div class='toolbar'>
     <a class='button warn' href="./login/" target="lime">Login as user</a>
     {% if not user.confirmed or not user.registered %}
-        <a href="./invite/">Send invitation email</a>
+        <a class='button warn' href="./invite/">Send invitation email</a>
     {% endif %}
     <a class='button well' href="{{ url_for("admin.billing", id=user.id) }}">Billing</a>
   </div>
