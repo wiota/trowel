@@ -1,0 +1,343 @@
+html {
+  box-sizing: border-box;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+body {
+  margin:0;
+  padding: 0;
+  font-size: 100%;
+  font-family: 'Helvetica', 'Arial', 'san-serif';
+}
+
+ul, ol {
+  margin: 0;
+  padding:0;
+  list-style-type: none;
+}
+
+a {
+  text-decoration: none;
+  color: #000;
+}
+
+p {
+  line-height: 1.5rem;
+}
+
+h1 {
+  margin: 0 0 1rem;
+  font-size: 1.5rem;
+}
+
+h2 {
+  font-size: 1.3rem;
+}
+
+h3 {
+  font-size: 1.1rem;
+}
+
+/* Forms */
+
+[type=text]:focus,
+[type=password]:focus,
+[type=date]:focus,
+[type=datetime]:focus,
+[type=datetime-local]:focus,
+[type=month]:focus,
+[type=week]:focus,
+[type=remail]:focus,
+[type=tel]:focus,
+[type=time]:focus,
+[type=url]:focus,
+[type=color]:focus,
+[type=number]:focus,
+[type=search]:focus,
+[type=submit]:focus,
+textarea:focus,
+a:focus {
+  border: 1px dotted #000000;
+  outline: 0;
+  box-shadow: 0 0 0 .3rem #fced1e;
+  transition: all 1s;
+}
+
+a:focus {
+  border-style: none;
+}
+
+fieldset {
+  margin: 0;
+  padding: 0;
+  border-style: none;
+}
+
+label {
+  font-style: italic;
+  font-size: 1rem;
+  line-height: 1rem;
+  margin: .5rem 0 0;
+  display:block;
+}
+
+input[type='text'],
+input[type='password'],
+textarea,
+input[type='submit'],
+button {
+  padding: .5rem;
+  margin: .5rem 0;
+  font-size: 1rem;
+  background-color: #fff;
+  border: 1px dotted #ccc;
+}
+
+input[type='text'],
+input[type='password'],
+textarea {
+  width: 100%;
+}
+
+input[type='checkbox'] {
+  float: left;
+  margin: 0 .5em 0 0;
+  line-height: 1em;
+}
+
+input[type='submit'],
+button {
+  color: #fff;
+  background-color: #000;
+  border-radius: .5rem;
+  margin: 1.5rem 0 0;
+  border: 1px solid #fced1e;
+  font-family: "Inconsolata","Monaco","Lucida Console","Courier New", "monospace";
+}
+
+.form-group {
+  clear: both;
+}
+
+/* Login */
+
+.trowel_login {
+  text-align: left;
+  width: 20rem;
+  margin: 0 auto;
+}
+
+.trowel_login img {
+  display:block;
+  margin: 2rem auto;
+}
+
+.trowel_login fieldset {
+  background: linear-gradient(to bottom, #d3d3d3 0%,#f4f4f4 100%);
+  border-radius: .2rem;
+  margin: 3rem 0;
+  padding: 2.5rem;
+}
+
+
+/* Flashes */
+
+.admin_flashes {
+  z-index: 1001;
+  position:fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  font-size: 110px;
+  font-weight: normal;
+  padding: 5%;
+  background-color: #8cf2f2;
+  color: #fff;
+}
+
+
+/* Trowel Nav */
+
+#navigation_column {
+  z-index: 2;
+  width: 249px;
+  border-right: .3rem solid #fced1e;
+  background: linear-gradient(to bottom, #d3d3d3 0%,#f4f4f4 100%);
+  position:fixed;
+  overflow: auto;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  padding: 0;
+  transition: all .2s ease-in-out;
+}
+
+.nav {
+  z-index: 1000;
+  padding: 0;
+  margin: 0 0 20px;
+  overflow: auto;
+  width: 100%;
+  font-weight: normal;
+  font-family: "Inconsolata","Monaco","Lucida Console","Courier New", "monospace";
+  font-size: 16px;
+}
+
+.subnav {
+  padding: 1em 0;
+}
+
+.nav li {
+  position:relative;
+  cursor: pointer;
+  clear:left;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.nav li a {
+  display:block;
+  padding: 2px 5%;
+}
+
+.nav li a:hover {
+  text-decoration: underline;
+}
+
+.nav .icon {
+  display:block;
+  float:left;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  margin: 2px 9px 0 0;
+  }
+
+.nav .icon svg {
+  display:block;
+  }
+
+.nav .label {
+  display:block;
+  padding: 5px 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  }
+
+#display_column {
+  z-index: 4;
+  margin: 0;
+  padding: 2em;
+  position:fixed;
+  top: 0;
+  right: 0;
+  left: 250px;
+  bottom:0;
+  overflow: auto;
+  perspective: 1000px;
+  -webkit-perspective: 1000px;
+  -moz-perspective: 1000px;
+  -o-perspective: 1000px;
+  transition: all .2s ease-in-out;
+  line-height: 1.5rem;
+}
+
+#display_column a {
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+#display_column .pro_tip {
+  font-size: 80%;
+  text-decoration: none;
+}
+
+#display_column .toolbar {
+  margin: 0 0 2%;
+}
+
+#display_column .topcon {
+  display:block;
+  margin: 2% 0;
+  width: 16%;
+}
+
+.confirm {
+  font-size: 2em;
+  line-height: 1.5em;
+}
+
+.button {
+  font-weight: normal;
+  padding: 0.3rem .7rem;
+  margin: 0 0.5rem 0.5rem 0;
+  display:inline-block;
+  color: #fff !important;
+  background-color: #000;
+  border-radius: .5rem;
+  text-decoration: none !important;
+  font-family: "Inconsolata","Monaco","Lucida Console","Courier New", "monospace";
+}
+
+.danger {
+  color: #f96625 !important;
+}
+
+.well {
+  color: #1ab239 !important;
+}
+
+.warn {
+  color: #fced1e !important;
+}
+
+/* stripe */
+#stripe-form {
+}
+
+#stripe-form div.form-row {
+    clear:both;
+}
+
+#stripe-form label {
+    display:block;
+    float:left;
+    width:20%;
+    padding: 7px;
+}
+
+#stripe-form label.error {
+    float:left;
+    width:40%;
+    color:#f96625 !important;
+}
+
+#stripe-form input, #stripe-form div.expiry-wrapper {
+    font-size: 18pt;
+    float:left;
+    width:35%;
+}
+
+#stripe-form select {
+    font-size:18pt;
+    border-color:#999;
+}
+
+#stripe-form button {
+    float:right;
+    font-size:18pt;
+}
+
+div.help {
+    font-size: 16px;
+    font-style: italic;
+    color: #AAA;
+    margin-top: -1rem;
+    padding-bottom: 1.5rem;
+}
+

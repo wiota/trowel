@@ -6,7 +6,7 @@
   {{ field() }}
 {% else %}
   <div class="form-group {% if field.errors %}error{% endif %}">
-    {% if not field.type == "SubmitField" %}
+    {% if not field.type == "SubmitField" and not field.type == "BooleanField" %}
       {{ field.label }}
     {% endif %}
     <div class="input_element">
@@ -15,6 +15,9 @@
         {% set autofocused = true %}
       {% else %}
         {{ field() }}
+      {% endif %}
+      {% if field.type == "BooleanField" %}
+        {{ field.label }}
       {% endif %}
       {% if field.errors or field.help_text %}
         <span class="input_help">
@@ -34,6 +37,14 @@
 {% endif %}
 
 </fieldset>
+{% endmacro %}
+
+{% macro checkmark(test) -%}
+  {% if test %}
+      <span class='well'>&#10004;</span>
+  {% else %}
+      <span class='danger'>&#10007;</span>
+  {% endif %}
 {% endmacro %}
 
 {% macro madeby() -%}

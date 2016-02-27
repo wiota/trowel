@@ -26,7 +26,7 @@ class CreateForm(Form):
 class LoginForm(Form):
     email = TextField('Email address', [Required()])
     password = PasswordField('Password', [Required()])
-    submit = SubmitField('Login')
+    submit = SubmitField('Trowel')
 
     def __init__(self, *args, **kwargs):
         Form.__init__(self, *args, **kwargs)

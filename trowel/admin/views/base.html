@@ -1,3 +1,4 @@
+{% from "_macros.html" import render %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -9,36 +10,61 @@
     <title>Trowel</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <link href='http://fonts.googleapis.com/css?family=Inconsolata:400,700' rel='stylesheet' type='text/css'>
-    <link rel='stylesheet' href='{{ url_for('static', filename='css/lime_base.css')|bust }}' type='text/css' media='all'>
-    <link rel='stylesheet' href='{{ url_for('static', filename='css/lime.css')|bust }}' type='text/css' media='all'>
-    <link rel='stylesheet' href='{{ url_for('static', filename='css/lime.views.css')|bust }}' type='text/css' media='all'>
-    <script src='{{ url_for('static', filename='js/lodash.min.js')|bust }}'></script>
-    <script src='{{ url_for('static', filename='js/jquery.min.js')|bust }}'></script>
-    <script src='{{ url_for('static', filename='js/icon.js')|bust }}'></script>
-    <script src='{{ url_for('static', filename='js/lime.js')|bust }}'></script>
-    <script src='{{ url_for('static', filename='js/backbone.js')|bust }}'></script>
-    <script src='{{ url_for('static', filename='js/sortable.js')|bust }}'></script>
+    <link rel='stylesheet' href='{{ url_for('static', filename='css/trowel.css') }}?v={{ config["HEROKU_RELEASE_NAME"] }}' type='text/css' media='all' />
+
+    <script src='{{ url_for('static', filename='js/jquery.min.js') }}'></script>
+    <script src='{{ url_for('static', filename='js/flash.js') }}'></script>
 
     {% endblock %}
-
-    {% block backbone_templates %}{% endblock %}
-
   </head>
 
-  <body>
-
+  <body class='account'>
     {% for message in get_flashed_messages() %}
     <div class='admin_flashes'>
       <div class='flash'>{{ message }}</div>
     </div>
     {% endfor %}
 
+    {%- block user -%}
+      {% if not current_user.is_anonymous() %}
 
-    <div class="content">
+        <div id='navigation_column'>
+          <ul class='account_nav nav'>
+            <li class='identification'>
+              <a><span class='label'>{{current_user.email}}</span></a>
+              <ul class='subnav'>
+                <li class='admin'>
+                  <a href=" {{ url_for('admin.index') }} ">
+                    <span class='trowel icon'>
+                      <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 16 16"><polygon fill="#FFFFFF" points="1.197,14.5 6.5,8.5 8.5,8.5 10.5,10.5 10.5,12.5 8.5,14.5  "/><path d="M8.707,15H0l6.291-7h2.416L11,10.293v2.414L8.707,15z M2.395,14h5.898L10,12.293v-1.586L8.293,9H6.709L2.395,14z"/><polyline fill="#FFFFFF" points="9.57,9.5 9.57,6.5 14.516,1.5 15.5,1.5 15.5,2.484 10.555,7.484 9.57,7.5   "/><polygon points="10.07,9.5 9.07,9.5 9.07,6.294 14.307,1 16,1 16,2.69 10.767,7.981 10.07,7.992   "/><polygon points="7,10.947 6,11 8,10 9,9.947 "/><polygon points="5,14 4,14 8,12 9,12 "/></svg>
+                      </span>
+                    <span class='label'>Trowel</span>
+                  </a>
+                </li>
+                <li class='logout'>
+                  <a href="{{ url_for('admin.logout') }} ">
+                    <span class='icon'>
+                      <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 16 16"><polygon fill="#ffffff" points="1,2 15,2 15,13 1,13 "/><line fill="none" stroke="#000000" stroke-miterlimit="10" x1="1" y1="1.5" x2="15" y2="1.5"/><line fill="none" stroke="#000000" stroke-miterlimit="10" x1="1" y1="13.5" x2="15" y2="13.5"/><line fill="none" stroke="#000000" stroke-miterlimit="10" x1="0.5" y1="2" x2="0.5" y2="13"/><line fill="none" stroke="#000000" stroke-miterlimit="10" x1="15.5" y1="2" x2="15.5" y2="13"/><line fill="none" stroke="#D80404" stroke-miterlimit="10" x1="2.5" y1="3" x2="2.5" y2="12"/><line fill="none" stroke="#D80404" stroke-miterlimit="10" x1="2" y1="3.5" x2="4" y2="3.5"/><line fill="none" stroke="#D80404" stroke-miterlimit="10" x1="2" y1="7.5" x2="4" y2="7.5"/><line fill="none" stroke="#D80404" stroke-miterlimit="10" x1="2" y1="11.5" x2="4" y2="11.5"/><polygon fill="#D80404" points="8,12 7,12 5,3 6,3 "/><polygon fill="#D80404" points="5,12 6,12 8,3 7,3 "/><line fill="none" stroke="#D80404" stroke-miterlimit="10" x1="9.5" y1="3" x2="9.5" y2="12"/><line fill="none" stroke="#D80404" stroke-miterlimit="10" x1="11" y1="3.5" x2="14" y2="3.5"/><line fill="none" stroke="#D80404" stroke-miterlimit="10" x1="12.5" y1="3.5" x2="12.5" y2="12"/></svg>
+                      </span>
+                    <span class='label'>Logout</span>
+                  </a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+
+      {% endif %}
+    {%- endblock -%}
+
+    <div id='display_column'>
+      {% if error %}<p class=error><strong>Error:</strong> {{ error }}{% endif %}
       {% block content %}{% endblock %}
     </div>
 
-    {% block js_footer %}{% endblock %}
+    <script type='text/javascript'>
+      $(document).ready(flash);
+    </script>
 
   </body>
 </html>

@@ -1,10 +1,12 @@
-{% extends "admin_base.html" %}
+{% from "_macros.html" import checkmark %}
+{% extends "base.html" %}
 {% block content %}
   <div class='toolbar'>
-    <a href="./login/" target="lime">Login as user</a>
+    <a class='button warn' href="./login/" target="lime">Login as user</a>
     {% if not user.confirmed or not user.registered %}
-        <a href="./invite/">Send invitation email</a>
+        <a class='button warn' href="./invite/">Send invitation email</a>
     {% endif %}
+    <a class='button well' href="{{ url_for("admin.billing", id=user.id) }}">Billing</a>
   </div>
   <h1 class='user'>{{user.email}}</h1>
     {% if not user.confirmed %}
@@ -17,8 +19,8 @@
             <li>Email: <a href="mailto:{{user.email}}">{{user.email}}</a></li>
             <li>User ID: {{user.id}}</li>
             <li>Stripe ID: <a href="https://dashboard.stripe.com/test/customers/{{user.stripe_id}}">{{user.stripe_id}}</a></li>
-            <li>Confirmed: {{user.confirmed}}</li>
-            <li>Registered: {{user.registered}}</li>
+            <li>Confirmed: {{ checkmark(user.confirmed) }}</li>
+            <li>Registered: {{ checkmark(user.registered) }}</li>
         </ul>
         <h3>Host</h3>
         <ul>
@@ -29,7 +31,8 @@
             <li>Title: {{host.title}}</li>
             <li>Subtitle: {{host.subtitle}}</li>
         </ul>
-        <h3>Pages - <a href="">Add a new custom page</a></h3>
+        <h3>Pages</h3>
+        <a>Add a new custom page</a>
         <ul>
         {% for page in host.custom_pages %}
             <li>{{ page.title }} - <a href="http://{{ host.hostname }}/{{ page.slug }}/">http://{{ host.hostname }}/{{ page.slug }}/</a></li>
@@ -38,47 +41,11 @@
         {% endfor %}
         </ul>
 
-    {% if cust %}
-    <h2>Plans</h2>
-    <h3>Enrolled</h3>
-    {% if cust.subscriptions.total_count < 1 %}
-        No plans.<br/>
-    {% else %}
-        <ul>
-        {% for sub in cust.subscriptions.data %}
-            <li>{{ sub.plan.name }} ({{ "$%.2f"|format(sub.plan.amount/100) }} per {{ sub.plan.interval }}) - <a class="danger" href="./plan/{{sub.id}}/remove/">Remove</a></li>
-        {% endfor %}
-        </ul>
-    {% endif %}
-    <h3>Available</h3>
-        <ul>
-        {% for plan in plans.data %}
-            <li>{{ plan.name }} ({{ "$%.2f"|format(plan.amount/100) }} per {{ plan.interval }}) - <a href="./plan/{{plan.id}}/add/">Add</a></li>
-        {% endfor %}
-        </ul>
-
-    <h2>Cards</h2>
-    {% if cust.cards.total_count < 1 %}
-        No cards added.
-    {% else %}
-        <ul>
-        {% for card in cust.cards.all()["data"] %}
-            <li>{{ card.brand }} ending in {{ card.last4}} expiring on {{ card.exp_month }}/{{ card.exp_year }}</li>
-        {% endfor %}
-        </ul>
-    {% endif %}
-    {% else %}
-      <span class="danger">
-        <h2>No Stripe data for this user.</h2>
-      </span>
-    {% endif %}
-
 
     <h2>Actions</h2>
-        <ul>
-            <li><a href="./invite/">Send invitation email</a></li>
-            <li><a href="./delete/">Delete user</a></li>
-        </ul>
-      </ul>
-    {% endblock %}
+    <ul>
+        <li><a class='button warn' href="./invite/">Send invitation email</a></li>
+        <li><a class='button danger' href="./delete/">Delete user</a></li>
+    </ul>
+{% endblock %}
 
